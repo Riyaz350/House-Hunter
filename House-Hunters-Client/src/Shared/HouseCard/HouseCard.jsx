@@ -52,16 +52,16 @@ const year = startDate.getFullYear()
 
     return (
         <div  className="card w-fit lg:w-96 bg-base-100 shadow-xl">
-            <figure><img src={house.photo} alt="Shoes" /></figure>
+            <figure><img src={house.photo} className='h-[250px]' alt="Shoes" /></figure>
             <div className="card-body">
                 <div className="space-y-2 font-medium">
                     <div className="grid grid-cols-3 justify-between gap-10">
                     <div className="col-span-2">
                     <h1 className="font-medium text-base lg:text-xl">{house.title}</h1>
-                    <h1 className="text-sm lg:text-base font-normal ">{house.address},{house.city}</h1>
+                    <h1 className="text-sm lg:text-base font-normal ">{house.address} , {house.city}</h1>
                     </div>
                     <div className="flex justify-end">
-                    <h1 className="font-medium text-base lg:text-xl">${house.rent}</h1>
+                    <h1 className="font-medium text-base lg:text-xl text-green-400">${house.rent}</h1>
                     </div>
                     </div>
                     <div className="">
@@ -140,9 +140,9 @@ const year = startDate.getFullYear()
                         </div>
                     </div>
                     </dialog>
-                    <button className={`${btnClass } margin-0 border-0`}><span className="text-xl"><MdDeleteForever /></span>Delete</button>
+                    <button className={`${btnClass } margin-0 border-0 text-red-500 border-red-500 hover:bg-red-500 hover:border-red-500`}><span className="text-xl"><MdDeleteForever /></span>Delete</button>
                     </div>
-                        <h1 className="text-lg font-bold flex justify-center items-center gap-2 mt-5"><LuPhoneCall />{house.phone}</h1>
+                        <h1 className="text-lg font-bold flex justify-center items-center gap-2 mt-5 border-2 w-fit mx-auto rounded-lg p-1 border-black"><LuPhoneCall />{house.phone}</h1>
                 </div>
             </div>
             </div>

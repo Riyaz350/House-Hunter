@@ -125,7 +125,7 @@ return (
             </dialog>
         </div>
 
-        <div className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-10">
+        <div className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-10 space-y-5 lg:space-y-0">
             {houseData.map(house=><HouseCard key={house._id} house={house}></HouseCard>)}
         </div>
 
