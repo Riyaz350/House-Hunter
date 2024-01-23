@@ -30,7 +30,20 @@ async function run() {
     const houseCollection = client.db('HouseHunter').collection('houses');
     const userCollection = client.db('HouseHunter').collection('users');
 
-    // Define routes after the database connection
+    // Users collections 
+
+    app.get('/user', async(req, res)=>{
+      const result = await userCollection.find().toArray()
+      res.send(result)
+    })
+  
+    app.get('/user/:email', async(req, res)=>{
+      const userEmail = req.params?.email
+      const query = {email: userEmail}
+      const result = await userCollection.findOne(query)
+      res.send(result)
+    })
+
     app.post('/user', async (req, res) => {
       const userData = req.body;
       const query = {email : req.body.email} 
@@ -41,6 +54,9 @@ async function run() {
       const result = await userCollection.insertOne(userData);
       res.send(result);
     });
+
+
+    // extra stuff
 
     app.get('/', (req, res) => {
       res.send('Server is running');

@@ -11,7 +11,6 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
-    const [alert, setAlert] = useState('')
 
 
 

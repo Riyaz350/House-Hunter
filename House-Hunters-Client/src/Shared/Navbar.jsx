@@ -1,12 +1,25 @@
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../Authentication/AuthContext/AuthProvider";
 
 const Navbar = () => {
+    const getUser = () => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          return JSON.parse(storedUser);
+        }
+        return null;
+      };
 
+      const user = getUser()
+
+    console.log(user)
     const navClass = " border-b-2 border-transparent hover:border-black"
 
     const navLinks = <div className="text-xl flex gap-2 lg:gap-10 items-center font-medium flex-col lg:flex-row">
         <NavLink className={navClass}>Home</NavLink>
         <NavLink className={navClass}>Dashboard</NavLink>
+        <NavLink className={navClass}>{user.name}</NavLink>
         <NavLink  to='/logIn' className="btn">Log In</NavLink>
     </div>
     return (

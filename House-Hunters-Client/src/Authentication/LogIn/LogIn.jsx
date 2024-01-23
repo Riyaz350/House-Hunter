@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/Axios/useAxiosPublic";
+import { AuthContext } from "../AuthContext/AuthProvider";
 
 
 
 const LogIn = () => {
+    const {signIn} = useContext(AuthContext)
+    const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
     const location = useLocation()
     const [email, setEmail] = useState("")
@@ -13,7 +17,12 @@ const LogIn = () => {
     // Email password sign in
     const handleSignIn = e =>{
         e.preventDefault()
-        console.log(email, password)
+        axiosPublic.get(`/user/${email}`)
+        .then(res =>{
+            if(res.data.password == password){
+                signIn(res.data)
+            }
+        })
     }
 
     return (
