@@ -55,6 +55,12 @@ async function run() {
       res.send(result);
     });
 
+    app.post('/house', async (req, res) => {
+      const userData = req.body;
+      const result = await houseCollection.insertOne(userData);
+      res.send(result);
+    });
+
 
     // extra stuff
 

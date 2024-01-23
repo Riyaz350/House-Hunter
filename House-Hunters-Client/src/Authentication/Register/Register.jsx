@@ -10,6 +10,7 @@ const Register = () => {
     const [email, setEmail] =useState("")
     const [phone, setPhone] =useState("")
     const [password, setPassword] = useState("")
+    const [status, setStatus] = useState('Renter')
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
     const {signIn} = useContext(AuthContext)
@@ -31,7 +32,7 @@ const handleEmailRegister = e=>{
 
         
     }else{
-        const userData = {name:name, phone:phone, email:email, password:password}
+        const userData = {name:name, phone:phone, email:email, password:password, status:status}
         axiosPublic.post('/user', userData)
         .then(res =>{
             if(res.data.acknowledged){
@@ -51,6 +52,9 @@ const handleEmailRegister = e=>{
         })
     }
 }
+    const handleSelectChange = (e) =>{
+        setStatus(e.target.value)
+    }
     return (
         <div >
 
@@ -61,6 +65,11 @@ const handleEmailRegister = e=>{
                 </div>
                 <div className="bg-white p-10 rounded-xl">
                 <form onSubmit={handleEmailRegister} className="bg-white">
+
+                <select id="dropdown" value={status} onChange={e=>handleSelectChange(e)}>
+                    <option value="Renter">Renter</option>
+                    <option value="Owner">Owner</option>
+                </select>
 
                     <div className="form-control">
                     <label className="label">

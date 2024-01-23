@@ -22,9 +22,9 @@ const LogIn = () => {
         .then(res =>{
             if(res.data.password == password){
                 signIn(res.data.email)
+                navigate('/')
+                window.location.reload();
                 Swal.fire({position: "top-end", icon: "success", title: "Welcome To House Hunter", showConfirmButton: false, timer: 1500});
-                    navigate('/')
-                    window.location.reload();
             }else{
                 Swal.fire({position: "top-end", icon: "error", title: "Wrong Password", showConfirmButton: false, timer: 1500});
 

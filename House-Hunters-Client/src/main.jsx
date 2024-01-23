@@ -16,7 +16,11 @@ const router = createBrowserRouter([
     element: <Main></Main>,
     children: [
       {
-        path: "/",
+        path: "/owner",
+        element: <Owner></Owner>
+      },
+      {
+        path: "/renter",
         element: <Owner></Owner>
       },
       {
