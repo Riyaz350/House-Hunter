@@ -55,6 +55,15 @@ async function run() {
       res.send(result);
     });
 
+    // Houses collection
+
+    app.get('/house/:email', async(req, res)=>{
+      const userEmail = req.params?.email
+      const query = {email: userEmail}
+      const result = await houseCollection.find(query).toArray()
+      res.send(result)
+    })
+
     app.post('/house', async (req, res) => {
       const userData = req.body;
       const result = await houseCollection.insertOne(userData);

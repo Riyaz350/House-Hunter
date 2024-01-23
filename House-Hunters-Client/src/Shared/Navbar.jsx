@@ -7,7 +7,6 @@ const Navbar = () => {
     const {user, signOut} = useContext(AuthContext)
     const [userData, refetch] = useUserData(user)
 
-    console.log(user)
     const navClass = " border-b-2 border-transparent hover:border-black"
     const handleLogOut = () =>{
         signOut()
