@@ -1,7 +1,8 @@
-import {  useState } from "react";
+import {  useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { Link,  useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/Axios/useAxiosPublic";
+import { AuthContext } from "../AuthContext/AuthProvider";
 
 
 const Register = () => {
@@ -11,6 +12,7 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
+    const {signIn} = useContext(AuthContext)
 
 
 
@@ -33,8 +35,16 @@ const handleEmailRegister = e=>{
         axiosPublic.post('/user', userData)
         .then(res =>{
             if(res.data.acknowledged){
-                Swal.fire({position: "top-end", icon:'success', title: "Success, Please Log In Again", showConfirmButton: false, timer: 1500})
-                navigate('/logIn')
+                axiosPublic.get(`/user/${email}`)
+                .then(res =>{
+                        signIn(res.data.email)
+                        Swal.fire({position: "top-end", icon: "success", title: "Welcome To House Hunter", showConfirmButton: false, timer: 1500});
+                        if(userData){
+                            navigate('/')
+                            window.location.reload();
+                        }
+                    
+                })
             }else{
                 Swal.fire({position: "top-end",icon:'error',  title: "User with this email already exists", showConfirmButton: false, timer: 1500})
             }

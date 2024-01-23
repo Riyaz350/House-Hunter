@@ -3,16 +3,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/Axios/useAxiosPublic";
 import { AuthContext } from "../AuthContext/AuthProvider";
-
+import useUserData from "../../Hooks/useUserData";
 
 
 const LogIn = () => {
+    const [userData,, refetch]  = useUserData()
     const {signIn} = useContext(AuthContext)
     const axiosPublic = useAxiosPublic()
-    const navigate = useNavigate()
     const location = useLocation()
     const [email, setEmail] = useState("")
     const [password, setPassword] =useState("")
+    const navigate = useNavigate()
     
     // Email password sign in
     const handleSignIn = e =>{
@@ -20,7 +21,13 @@ const LogIn = () => {
         axiosPublic.get(`/user/${email}`)
         .then(res =>{
             if(res.data.password == password){
-                signIn(res.data)
+                signIn(res.data.email)
+                Swal.fire({position: "top-end", icon: "success", title: "Welcome To House Hunter", showConfirmButton: false, timer: 1500});
+                    navigate('/')
+                    window.location.reload();
+            }else{
+                Swal.fire({position: "top-end", icon: "error", title: "Wrong Password", showConfirmButton: false, timer: 1500});
+
             }
         })
     }

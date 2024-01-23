@@ -1,27 +1,28 @@
 import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../Authentication/AuthContext/AuthProvider";
+import useUserData from "../Hooks/useUserData";
 
 const Navbar = () => {
-    const getUser = () => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          return JSON.parse(storedUser);
-        }
-        return null;
-      };
-
-      const user = getUser()
+    const {user, signOut} = useContext(AuthContext)
+    const [userData, refetch] = useUserData(user)
 
     console.log(user)
     const navClass = " border-b-2 border-transparent hover:border-black"
+    const handleLogOut = () =>{
+        signOut()
+        refetch()
+    }
 
     const navLinks = <div className="text-xl flex gap-2 lg:gap-10 items-center font-medium flex-col lg:flex-row">
         <NavLink className={navClass}>Home</NavLink>
         <NavLink className={navClass}>Dashboard</NavLink>
-        <NavLink className={navClass}>{user.name}</NavLink>
-        <NavLink  to='/logIn' className="btn">Log In</NavLink>
+        <NavLink className={navClass}>{userData.name}</NavLink>
+        {!user? <NavLink  to='/logIn' className="btn">Log In</NavLink>:
+        <NavLink  onClick={handleLogOut} className="btn">Log Out</NavLink>
+        }
     </div>
+    
     return (
         <div>
            <div className="navbar shadow-lg lg:flex justify-between items-center lg:p-5">
