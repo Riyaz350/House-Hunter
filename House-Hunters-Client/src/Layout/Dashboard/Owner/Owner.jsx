@@ -9,6 +9,7 @@ import { CiCirclePlus } from "react-icons/ci";
 import useUserData from "../../../Hooks/useUserData";
 import useHousesData from "../../../Hooks/useHousesData";
 import HouseCard from "../../../Shared/HouseCard/HouseCard";
+import { useMediaQuery } from 'react-responsive';
 
 
 
@@ -23,6 +24,8 @@ const [startDate, setStartDate] = useState(new Date());
 const day = startDate.getDate()
 const month = startDate.getMonth() +1
 const year = startDate.getFullYear()
+const isWideScreen = useMediaQuery({ minWidth: 1025 });
+
 
 const btnClass = "btn w-fit mx-auto font-bold flex justify-end  bg-white border-2 border-black hover:bg-black hover:text-white hover:border-black"
 
@@ -125,7 +128,13 @@ return (
             </dialog>
         </div>
 
-        <div className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-10 space-y-5 lg:space-y-0">
+        <div style={{
+        gridTemplateColumns: isWideScreen ? 'repeat(4, 1fr)' : 'repeat(2, 1fr)',
+        gap: '1rem',
+        padding: '1rem',
+        boxSizing: 'border-box',
+        width: '100%', // Optional: Set the width to 100% for full-width container
+      }} className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-10 space-y-5 lg:space-y-0">
             {houseData.map(house=><HouseCard key={house._id} house={house}></HouseCard>)}
         </div>
 

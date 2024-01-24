@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -70,16 +70,46 @@ async function run() {
       res.send(result);
     });
 
+    app.put('/house/:_id',  async (req, res) => {
+      const updatedApartment = req.body;
+      const id = req.params._id;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+          $set: {
+            title: updatedApartment.title,  
+            name:updatedApartment.name,
+            date:updatedApartment.date,
+            address:updatedApartment.address,
+            city:updatedApartment.city,
+            phone:updatedApartment.phone,
+            bed:updatedApartment.bed,
+            bath:updatedApartment.bath,
+            size:updatedApartment.size,
+            rent:updatedApartment.rent,
+            photo:updatedApartment.photo,
+            description:updatedApartment.description
+          },
+      };
+      const options = {upsert: true}
+      const result = await houseCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    })
 
-    // extra stuff
+    app.patch('/house/:_id',  async (req, res) => {
+      const updatedApartment = req.body;
+      const id = req.params._id;
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+          $set: {
+              status: updatedApartment.status,
+          },
+      };
+      const result = await houseCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    })
 
-    app.get('/', (req, res) => {
-      res.send('Server is running');
-    });
 
-    app.listen(port, () => {
-      console.log(`Your port is ${port}`);
-    });
+    
   } finally {
     // Close the MongoDB connection if needed
     // await client.close();
@@ -87,3 +117,12 @@ async function run() {
 }
 
 run().catch(console.dir);
+// extra stuff
+
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
+
+app.listen(port, () => {
+  console.log(`Your port is ${port}`);
+});
