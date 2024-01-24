@@ -21,20 +21,26 @@ const axiosPublic = useAxiosPublic()
 const [houses] = useAllHousesData()
 const email = userData.email
 const owner = house.email
+const houseName = house.title
+const name = userData.name
 const ID = house._id
 console.log(house)
 
 
     const btnClass = "btn w-fit mx-auto font-bold flex justify-end  bg-white border-2 border-black hover:bg-black hover:text-white hover:border-black"
-    const booking = {email, ID, owner}
+    const booking = {email, ID, owner, name, houseName}
 
     const handleBooking =()=>{
         axiosPublic.post('/book', booking)
-        .then(res =>console.log(res.data))
+        .then(res =>{
+            if(res.data.acknowledged){
+                Swal.fire({position: "top-end", icon: "success", title: "Request Sent", showConfirmButton: false, timer: 1500});
+            }
+        })
     }
 
     return (
-        <div  className="card w-fit lg:w-96 bg-base-100 shadow-xl">
+        <div  className="card w-fit md:w-1/2 lg:w-96 mx-auto bg-base-100 shadow-xl">
             <figure><img src={house.photo} className='h-[250px] w-full' alt="Shoes" /></figure>
             <div className="card-body">
                 <div className="space-y-2 font-medium">

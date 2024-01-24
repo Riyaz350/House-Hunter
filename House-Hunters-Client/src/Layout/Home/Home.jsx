@@ -15,13 +15,7 @@ const Home = () => {
     return (
         <div>
             <Navbar></Navbar>
-            <div style={{
-        gridTemplateColumns: isWideScreen ? 'repeat(4, 1fr)' : 'repeat(2, 1fr)',
-        gap: '1rem',
-        padding: '1rem',
-        boxSizing: 'border-box',
-        width: '100%', 
-      }} className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-10 space-y-5 lg:space-y-0">
+            <div style={{ gridTemplateColumns: isWideScreen ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)', gap: '1rem', padding: '1rem', boxSizing: 'border-box', width: '100%', }} className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-auto space-y-5 lg:space-y-0">
             {houses.map(house=><HouseCard key={house._id} house={house}></HouseCard>)}
         </div>
         </div>

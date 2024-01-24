@@ -13,6 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { LuPhoneCall } from "react-icons/lu";
+import useBookings from "../../../Hooks/useBookings";
 
 
 const Owner = () => {
@@ -20,6 +21,8 @@ const Owner = () => {
 
 const {user} =useContext(AuthContext)
 const [userData]  = useUserData(user)
+const [bookingsData] = useBookings(user)
+console.log(bookingsData)
 const [houseData,,refetch] = useHousesData(user)
 const axiosPublic = useAxiosPublic()
 const [startDate, setStartDate] = useState(new Date());
@@ -64,6 +67,26 @@ return (
                     
         <Navbar></Navbar>
 
+    <div className="lg:flex justify-center gap-10">
+        <div>
+            <button className={`${btnClass} my-5 lg:my-10 `} onClick={()=>document.getElementById('my_modal_3').showModal()}><span className="text-xl">< CiCirclePlus /></span>Show Bookings</button>
+            <dialog id="my_modal_3" className="modal">
+                <div className="bg-white w-2/3 h-1/2 p-10 rounded-lg ">
+                    <form method="dialog">
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 bg-white">✕</button>
+                    </form>
+                    <div className="space-y-5">
+                        {bookingsData.map(book => 
+                        <div key={book._id} className=" flex text-xl lg:text-3xl gap-2">
+                        <h1 className=" w-[300px]"> Renter: {book.name}</h1>
+                        <h1 className="w-full"> House name: {book.houseName}</h1>
+                        <button className={btnClass}>Approve</button>
+                        <button className={btnClass}>Deny</button>
+                        </div>)}
+                    </div>
+                </div>
+            </dialog>
+        </div>
         <div>
             <button className={`${btnClass} my-5 lg:my-10 `} onClick={()=>document.getElementById('my_modal_4').showModal()}><span className="text-xl">< CiCirclePlus /></span>Add Home</button>
             <dialog id="my_modal_4" className="modal">
@@ -129,15 +152,10 @@ return (
                 </div>
             </dialog>
         </div>
+    </div>
 
-        <div style={{
-        gridTemplateColumns: isWideScreen ? 'repeat(4, 1fr)' : 'repeat(2, 1fr)',
-        gap: '1rem',
-        padding: '1rem',
-        boxSizing: 'border-box',
-        width: '100%', // Optional: Set the width to 100% for full-width container
-      }} className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-10 space-y-5 lg:space-y-0">
-            {houseData.map(house=><div key={house._id} className="card w-fit lg:w-96 bg-base-100 shadow-xl">
+    <div style={{ gridTemplateColumns: isWideScreen ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)', gap: '1rem', padding: '1rem', boxSizing: 'border-box', width: '100%', }} className="lg:grid lg:grid-cols-4 md:grid-cols-2 justify-center mx-auto space-y-5 lg:space-y-0">
+            {houseData.map(house=><div key={house._id} className="card w-fit md:w-1/2 mx-auto lg:w-96 bg-base-100 shadow-xl">
             <figure><img src={house.photo} className='h-[250px] w-full' alt="Shoes" /></figure>
             <div className="card-body">
                 <div className="space-y-2 font-medium">

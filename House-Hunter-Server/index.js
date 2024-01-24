@@ -115,6 +115,14 @@ async function run() {
 
     // agreements
 
+    app.get('/book/:email', async(req, res)=>{
+      const userEmail = req.params?.email
+      const query = {owner: userEmail}
+      console.log(userEmail)
+      const result = await agreementsCollection.find(query).toArray()
+      res.send(result)
+    })
+
     app.post('/book', async (req, res) => {
       const userData = req.body;
       const result = await agreementsCollection.insertOne(userData);
