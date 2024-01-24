@@ -16,6 +16,7 @@ const Register = () => {
     const axiosPublic = useAxiosPublic()
     const {user,signIn} = useContext(AuthContext)
     const [userData] = useUserData(user)
+    const owned = []
 
 
 
@@ -34,7 +35,7 @@ const handleEmailRegister = e=>{
 
         
     }else{
-        const userData = {name:name, phone:phone, email:email, password:password, status:status}
+        const userData = {name:name, phone:phone, email:email, password:password, status:status, owned}
         axiosPublic.post('/user', userData)
         .then(res =>{
             if(res.data.acknowledged){

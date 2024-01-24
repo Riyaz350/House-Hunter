@@ -4,7 +4,7 @@ import useAxiosPublic from "./Axios/useAxiosPublic";
 const useBookings = (email) => {
     const axiosPublic = useAxiosPublic()
 
-    const {data:bookingsData =[], isPending:houseLoading, refetch} =useQuery({
+    const {data:bookingsData =[], isPending:houseLoading, refetch:customRe} =useQuery({
         queryKey:[email,'bookingsData'],
         queryFn: async()=>{
             
@@ -12,7 +12,7 @@ const useBookings = (email) => {
                 return res.data
         }
     })
-    return [bookingsData, houseLoading, refetch]
+    return [bookingsData, houseLoading, customRe]
 };
 
 export default useBookings;

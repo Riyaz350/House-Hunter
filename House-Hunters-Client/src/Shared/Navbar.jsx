@@ -14,7 +14,7 @@ const Navbar = () => {
     }
 
     const navLinks = <div className="text-xl flex gap-2 lg:gap-10 items-center font-medium flex-col lg:flex-row">
-        {userData.status == 'Renter' &&<NavLink to={'/'} className={navClass}>Home</NavLink>}
+      <NavLink to={'/'} className={navClass}>Home</NavLink>
         <NavLink to={userData.status == 'Owner'? '/owner' : '/renter'} className={navClass}>Dashboard</NavLink>
         <NavLink className={`${navClass} hover:border-white`  }>{userData.name}</NavLink>
         {!user? <NavLink  to='/logIn' className="btn">Log In</NavLink>:

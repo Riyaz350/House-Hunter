@@ -47,14 +47,31 @@ async function run() {
 
     app.post('/user', async (req, res) => {
       const userData = req.body;
-      const query = {email : req.body.email} 
-      const find = await userCollection.findOne(query)
-      if(find){
-        return res.send  ({message: 'user already exists', insertedId : null})
-      }
       const result = await userCollection.insertOne(userData);
       res.send(result);
     });
+
+    app.put('/user/:email', async(req, res)=>{
+      const userEmail = req.params?.email
+      const query = {email: userEmail}
+      options={upsert:true}
+      const result = await userCollection.findOne(query)
+      res.send(result)
+    })
+
+    app.put('/users/:email',  async (req, res) => {
+      const houseId = req.body;
+      const mail = req.params.email;
+      const filter = { email: mail };
+      const updateDoc = {
+        $push: {
+          owned: houseId.id,
+        },
+      };
+      const options = {upsert: true}
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    })
 
     // Houses collection
 
@@ -115,7 +132,6 @@ async function run() {
 
     app.delete('/house/:e', async(req, res)=>{
       const id = req.params.e
-      console.log(id)
       const query = {_id: new ObjectId(id)}
       const result = await houseCollection.deleteOne(query);
       res.send(result)
@@ -126,7 +142,6 @@ async function run() {
     app.get('/book/:email', async(req, res)=>{
       const userEmail = req.params?.email
       const query = {owner: userEmail}
-      console.log(userEmail)
       const result = await agreementsCollection.find(query).toArray()
       res.send(result)
     })
@@ -136,6 +151,13 @@ async function run() {
       const result = await agreementsCollection.insertOne(userData);
       res.send(result);
     });
+
+    app.delete('/book/:e', async(req, res)=>{
+      const id = req.params.e
+      const query = {_id: new ObjectId(id)}
+      const result = await agreementsCollection.deleteOne(query);
+      res.send(result)
+    })
 
 
     

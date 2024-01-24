@@ -21,8 +21,7 @@ const Owner = () => {
 
 const {user} =useContext(AuthContext)
 const [userData]  = useUserData(user)
-const [bookingsData] = useBookings(user)
-console.log(bookingsData)
+const [bookingsData,,customRe] = useBookings(user)
 const [houseData,,refetch] = useHousesData(user)
 const axiosPublic = useAxiosPublic()
 const [startDate, setStartDate] = useState(new Date());
@@ -30,7 +29,6 @@ const day = startDate.getDate()
 const month = startDate.getMonth() +1
 const year = startDate.getFullYear()
 const isWideScreen = useMediaQuery({ minWidth: 1025 });
-
 
 const btnClass = "btn w-fit mx-auto font-bold flex justify-end  bg-white border-2 border-black hover:bg-black hover:text-white hover:border-black"
 
@@ -72,6 +70,35 @@ const handleDelete =(e)=>{
         }
     })
 }
+const handleApprove = (id, email, Id) =>{
+    axiosPublic.get(`/user/${email}`)
+    .then(res=>{
+        console.log(res.data.owned)
+        if(res.data.owned.length<=2){
+
+        axiosPublic.put(`/users/${email}`, {id:id})
+        .then(res=>console.log(res))
+        axiosPublic.delete(`/book/${Id}`)
+        .then(res=>{
+            if(res.data.acknowledged){
+                customRe()
+            }
+        })
+    }else{
+        Swal.fire({position: "top-end",icon: "error", title: "User Owens more than 2 home", showConfirmButton: false, timer: 1500 });
+
+    }
+
+})
+}
+const handleDel = ( Id) =>{
+    axiosPublic.delete(`/book/${Id}`)
+    .then(res=>{
+        if(res.data.acknowledged){
+            customRe()
+        }
+    })
+}
 
 return (
     <div className=''>
@@ -91,8 +118,8 @@ return (
                         <div key={book._id} className=" flex text-xl lg:text-3xl gap-2">
                         <h1 className=" w-[300px]"> Renter: {book.name}</h1>
                         <h1 className="w-full"> House name: {book.houseName}</h1>
-                        <button className={btnClass}>Approve</button>
-                        <button className={btnClass}>Deny</button>
+                        <button onClick={()=>handleApprove(book.ID, book.email, book._id)} className={btnClass}>Approve</button>
+                        <button onClick={()=>{handleDel(book._id)}} className={btnClass}>Deny</button>
                         </div>)}
                     </div>
                 </div>
