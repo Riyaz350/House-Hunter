@@ -29,6 +29,7 @@ async function run() {
 
     const houseCollection = client.db('HouseHunter').collection('houses');
     const userCollection = client.db('HouseHunter').collection('users');
+    const agreementsCollection = client.db('HouseHunter').collection('agreements');
 
     // Users collections 
 
@@ -57,6 +58,10 @@ async function run() {
 
     // Houses collection
 
+    app.get('/house', async(req, res)=>{
+      const result = await houseCollection.find().toArray()
+      res.send(result)
+    })
     app.get('/house/:email', async(req, res)=>{
       const userEmail = req.params?.email
       const query = {email: userEmail}
@@ -107,6 +112,14 @@ async function run() {
       const result = await houseCollection.updateOne(filter, updateDoc);
       res.send(result);
     })
+
+    // agreements
+
+    app.post('/book', async (req, res) => {
+      const userData = req.body;
+      const result = await agreementsCollection.insertOne(userData);
+      res.send(result);
+    });
 
 
     

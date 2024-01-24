@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { Link,  useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/Axios/useAxiosPublic";
 import { AuthContext } from "../AuthContext/AuthProvider";
+import useUserData from "../../Hooks/useUserData";
 
 
 const Register = () => {
@@ -13,7 +14,8 @@ const Register = () => {
     const [status, setStatus] = useState('Renter')
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
-    const {signIn} = useContext(AuthContext)
+    const {user,signIn} = useContext(AuthContext)
+    const [userData] = useUserData(user)
 
 
 
@@ -41,7 +43,7 @@ const handleEmailRegister = e=>{
                         signIn(res.data.email)
                         Swal.fire({position: "top-end", icon: "success", title: "Welcome To House Hunter", showConfirmButton: false, timer: 1500});
                         if(userData){
-                            navigate('/')
+                            navigate(userData.status == 'Owner'? '/owner':'/renter')
                             window.location.reload();
                         }
                     

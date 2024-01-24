@@ -7,14 +7,13 @@ import useUserData from "../../Hooks/useUserData";
 
 
 const LogIn = () => {
-    const [userData,, refetch]  = useUserData()
-    const {signIn} = useContext(AuthContext)
+    const {user,signIn} = useContext(AuthContext)
+    const [userData,, refetch]  = useUserData(user)
     const axiosPublic = useAxiosPublic()
     const location = useLocation()
     const [email, setEmail] = useState("")
     const [password, setPassword] =useState("")
     const navigate = useNavigate()
-    
     // Email password sign in
     const handleSignIn = e =>{
         e.preventDefault()
@@ -22,6 +21,7 @@ const LogIn = () => {
         .then(res =>{
             if(res.data.password == password){
                 signIn(res.data.email)
+                // navigate(userData.status == 'Owner'? '/owner':'/renter')
                 navigate('/')
                 window.location.reload();
                 Swal.fire({position: "top-end", icon: "success", title: "Welcome To House Hunter", showConfirmButton: false, timer: 1500});
