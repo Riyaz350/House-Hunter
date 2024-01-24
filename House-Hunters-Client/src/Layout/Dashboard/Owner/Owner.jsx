@@ -62,6 +62,17 @@ const handleAddPhone = e =>{
     })
 }
 
+const handleDelete =(e)=>{
+    axiosPublic.delete(`/house/${e}`)
+    .then(res=>{
+        if(res.data.acknowledged){
+            refetch()
+            Swal.fire({position: "top-end",icon: "success", title: "Deleted Home", showConfirmButton: false, timer: 1500 });
+
+        }
+    })
+}
+
 return (
     <div className=''>
                     
@@ -246,7 +257,7 @@ return (
                         </div>
                     </div>
                     </dialog>
-                    <button className={`${btnClass } margin-0 border-0 text-red-500 border-red-500 hover:bg-red-500 hover:border-red-500`}><span className="text-xl"><MdDeleteForever /></span>Delete</button>
+                    <button onClick={()=>handleDelete(house._id)} className={`${btnClass } margin-0 border-0 text-red-500 border-red-500 hover:bg-red-500 hover:border-red-500`}><span className="text-xl"><MdDeleteForever /></span>Delete</button>
                     </div> :
                     <><button className={btnClass}>Book Now</button></>
                     }
